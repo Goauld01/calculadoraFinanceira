@@ -2,7 +2,7 @@ function convertToManthlyReturnRate(yearlyReturnRate) {
   return yearlyReturnRate ** (1 / 12);
 }
 
-function generateReturnArray(
+export function generateReturnArray(
   startingAmount = 0,
   timeHorizon = 0,
   monthlyContribution = 0,
@@ -22,7 +22,7 @@ function generateReturnArray(
       : convertToManthlyReturnRate(1 + returnRate / 100);
 
   const finalTimeHorizon =
-    timeHorizon === "monthly" ? timeHorizon : timeHorizon * 12;
+    timePeriod === "monthly" ? timeHorizon : timeHorizon * 12;
 
   const referenceInvestimentObject = {
     investedAmount: startingAmount,
