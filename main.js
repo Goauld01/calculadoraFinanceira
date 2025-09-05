@@ -191,6 +191,6 @@ for (const formElement of form) {
 }
 
 //todo Eventos de escuta
-form.addEventListener("submit", renderProgression);
+// form.addEventListener("submit", renderProgression);
 clearButton.addEventListener("click", clearForm);
 // calculateButton.addEventListener("click", renderProgression);
