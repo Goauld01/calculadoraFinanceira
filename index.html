@@ -94,8 +94,21 @@
     </div>
   </aside>
 
-  <main class="col-span-2 row-span-2 ">
-    <p>Resultados</p>
+  <main class="col-span-2 row-span-2  h-full">
+
+    <section id="charts-container">
+      <div class="h-[36dvh] flex">
+        <p>Resultado Final</p>
+        <canvas id="final-money-distribution"></canvas>
+      </div>
+      <div class="h-[56dvh]">
+        <p>Progressão</p>
+        <canvas id="progession"></canvas>
+      </div>
+
+    </section>
+
+
   </main>
   <script src="main.js" type="module"></script>
 </body>
