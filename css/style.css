@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .error {
+    border-width: 2px;
+    border-color: #dc2626; /* Tailwind's red-600 hex value */
+    border-radius: 0.5rem; /* Tailwind's rounded-lg value */
+  }
+}
