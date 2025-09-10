@@ -16,16 +16,32 @@ let doughnutChatrReference = {};
 let progessionChartReference = {};
 
 const columnsArray = [
-  { columnsLabel: "Total investido", accessor: "investedAmount" },
-  { columnsLabel: "Rendimento mensal", accessor: "interestReturns" },
-  { columnsLabel: "Rendimento total", accessor: "totalInterestReturns" },
   { columnsLabel: "Mês", accessor: "month" },
-  { columnsLabel: "Quantia Total", accessor: "totalAmount" },
+  {
+    columnsLabel: "Total investido",
+    accessor: "investedAmount",
+    format: (numberInfo) => formatCurrency(numberInfo),
+  },
+  {
+    columnsLabel: "Rendimento mensal",
+    accessor: "interestReturns",
+    format: (numberInfo) => formatCurrency(numberInfo),
+  },
+  {
+    columnsLabel: "Rendimento total",
+    accessor: "totalInterestReturns",
+    format: (numberInfo) => formatCurrency(numberInfo),
+  },
+  {
+    columnsLabel: "Quantia Total",
+    accessor: "totalAmount",
+    format: (numberInfo) => formatCurrency(numberInfo),
+  },
 ];
 
 //todo FUnção para formatar valores
 function formatCurrency(value) {
-  return value.toFixed(2);
+  return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
 
 //todo Função para calcular e exibiar os gráficos

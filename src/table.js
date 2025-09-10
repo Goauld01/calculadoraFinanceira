@@ -37,17 +37,16 @@ function createTableHeader(tableReference, columnsArray) {
     tableReference.querySelector("thead") ?? createTheadElement(tableReference);
 
   const headerRow = document.createElement("tr");
+  //todo Lista de classes para adcionar a tabela
+  ["bg-blue-900", "text-slate-200", "sticky", "top-0"].forEach((cssClass) =>
+    headerRow.classList.add(cssClass)
+  );
 
   for (const tableColumnusObject of columnsArray) {
     const headerElement = /*html*/ `<th class="text-center">${tableColumnusObject.columnsLabel}</th>`;
     headerRow.innerHTML += headerElement;
   }
   tableHearderReference.appendChild(headerRow);
-}
-
-//todo Função para criação do corpo da tabela
-function formatCurrency(value) {
-  return value.toFixed(2);
 }
 
 function createTableBody(tableReference, tableItens, columnsArray) {
@@ -64,8 +63,13 @@ function createTableBody(tableReference, tableItens, columnsArray) {
   for (const [itensIndex, tableItem] of tableItens.entries()) {
     const tableRow = document.createElement("tr");
 
+    if (itensIndex % 2 != 0) {
+      tableRow.classList.add("bg-blue-200");
+    }
     for (const tableColumn of columnsArray) {
-      tableRow.innerHTML += /*html*/ `<td class="text-center">${formatCurrency(
+      //todo Função para formatar os campos
+      const formatFn = tableColumn.format ?? ((info) => info);
+      tableRow.innerHTML += /*html*/ `<td class="text-center">${formatFn(
         tableItem[tableColumn.accessor]
       )}</td>`;
     }
