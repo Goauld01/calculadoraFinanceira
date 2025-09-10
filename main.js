@@ -1,5 +1,6 @@
 import { generateReturnArray } from "./src/investimentGoals.js";
 import { Chart } from "chart.js/auto";
+import { createTable } from "./src/table.js";
 
 //todo Elememtos de gráficos
 const finalMoneyChart = document.getElementById("final-money-distribution");
@@ -10,11 +11,46 @@ const form = document.getElementById("investiment-form");
 const clearButton = document.getElementById("clear-form");
 // const calculateButton = document.getElementById("calculate-results");
 
+//todo Seleção da Main
+const mainEl = document.querySelector("main");
+const carouselEl = document.getElementById("carousel");
+const nextBtn = document.getElementById("slide-arrow-next");
+const previousBtn = document.getElementById("slide-arrow-previous");
+
+//todo Variáveis globais
 let doughnutChatrReference = {};
 let progessionChartReference = {};
 
+const columnsArray = [
+  { columnsLabel: "Mês", accessor: "month" },
+  {
+    columnsLabel: "Total investido",
+    accessor: "investedAmount",
+    format: (numberInfo) => formatCurrencyToTable(numberInfo),
+  },
+  {
+    columnsLabel: "Rendimento mensal",
+    accessor: "interestReturns",
+    format: (numberInfo) => formatCurrencyToTable(numberInfo),
+  },
+  {
+    columnsLabel: "Rendimento total",
+    accessor: "totalInterestReturns",
+    format: (numberInfo) => formatCurrencyToTable(numberInfo),
+  },
+  {
+    columnsLabel: "Quantia Total",
+    accessor: "totalAmount",
+    format: (numberInfo) => formatCurrencyToTable(numberInfo),
+  },
+];
+
 //todo FUnção para formatar valores
-function formatCurrency(value) {
+function formatCurrencyToTable(value) {
+  return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
+
+function formatCurrencyToGraph(value) {
   return value.toFixed(2);
 }
 
@@ -66,12 +102,12 @@ function renderProgression(evt) {
           {
             label: "Total",
             data: [
-              formatCurrency(finalInvestimentObject.investedAmount),
-              formatCurrency(
+              formatCurrencyToGraph(finalInvestimentObject.investedAmount),
+              formatCurrencyToGraph(
                 finalInvestimentObject.totalInterestReturns *
                   (1 - taxRate / 100)
               ),
-              formatCurrency(
+              formatCurrencyToGraph(
                 finalInvestimentObject.totalInterestReturns * (taxRate / 100)
               ),
             ],
@@ -97,14 +133,14 @@ function renderProgression(evt) {
           {
             label: "Total Investido",
             data: returnsArray.map((investmentObject) =>
-              formatCurrency(investmentObject.investedAmount)
+              formatCurrencyToGraph(investmentObject.investedAmount)
             ),
             backgroundColor: "rgb(255, 99, 132)",
           },
           {
             label: "Retorno do Investimento",
             data: returnsArray.map((investmentObject) =>
-              formatCurrency(investmentObject.interestReturns)
+              formatCurrencyToGraph(investmentObject.interestReturns)
             ),
             backgroundColor: "rgb(54, 162, 235)",
           },
@@ -118,6 +154,9 @@ function renderProgression(evt) {
         },
       },
     });
+
+    //todo Criação da tabela com os dados
+    createTable(columnsArray, returnsArray, "results-table");
   } catch (error) {
     alert(error.message);
   }
@@ -194,3 +233,10 @@ for (const formElement of form) {
 form.addEventListener("submit", renderProgression);
 clearButton.addEventListener("click", clearForm);
 // calculateButton.addEventListener("click", renderProgression);
+
+nextBtn.addEventListener("click", () => {
+  carouselEl.scrollLeft += mainEl.clientWidth;
+});
+previousBtn.addEventListener("click", () => {
+  carouselEl.scrollLeft -= mainEl.clientWidth;
+});
